@@ -1,0 +1,54 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
+plugins {
+    id 'java'
+    id 'com.gradleup.shadow' version '9.1.0'
+}
+
+group = 'com.riverstone.unknown303'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    gradlePluginPortal()
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    implementation "com.google.code.gson:gson:2.13.1"
+    implementation "io.netty:netty-all:4.2.9.Final"
+    implementation "com.google.guava:guava:33.5.0-jre"
+    implementation "it.unimi.dsi:fastutil:8.5.18"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.register('server', ShadowJar) {
+    group 'build'
+    archiveClassifier.set("server")
+    manifest {
+        attributes 'Main-Class': 'com.riverstone.unknown303.modmanager.ServerMain'
+    }
+    from sourceSets.main.output
+    configurations = [project.configurations.runtimeClasspath]
+}
+
+tasks.register('client', ShadowJar) {
+    group 'build'
+    archiveClassifier.set("client")
+    manifest {
+        attributes 'Main-Class': 'com.riverstone.unknown303.modmanager.ClientMain'
+    }
+    from sourceSets.main.output
+    configurations = [project.configurations.runtimeClasspath]
+}
+
+tasks.build.dependsOn('server', 'client')
+tasks.jar.enabled = false
+tasks.shadowJar.enabled = false
