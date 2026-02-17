@@ -11,6 +11,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 
 import java.util.List;
+import java.util.UUID;
 
 public class PacketDecoder extends ByteToMessageDecoder {
     @Override
@@ -24,6 +25,8 @@ public class PacketDecoder extends ByteToMessageDecoder {
         if (opcode != 0x01)
             return;
 
+        UUID requestId = buf.readUUID();
+
         Identifier id = Identifier.parse(buf.readUtf());
 
         NetworkCodec<Packet<?>> builder = (NetworkCodec<Packet<?>>) NetworkCodec.BUILDERS.get(id);
@@ -33,6 +36,7 @@ public class PacketDecoder extends ByteToMessageDecoder {
         }
 
         Packet<?> packet = builder.build(new FriendlyByteBuf(buf.readBytes(Unpooled.buffer())));
+        packet.setRequestId(requestId);
         list.add(packet);
     }
 }

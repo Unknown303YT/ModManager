@@ -20,14 +20,7 @@ public class CryptoUtil {
     private static final int MEMORY_KIB = 46 * 1024;
     private static final int PARALLELISM = 1;
 
-    public static String generateSalt() {
-        byte[] salt = new byte[24];
-        RANDOM.nextBytes(salt);
-        return Base64.getEncoder().encodeToString(salt);
-    }
-
-    public static String hashPassword(String password)
-            throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public static String hashPassword(String password) {
         char[] chars = password.toCharArray();
         try {
             return ARGON_2.hash(ITERATIONS, MEMORY_KIB, PARALLELISM, chars);

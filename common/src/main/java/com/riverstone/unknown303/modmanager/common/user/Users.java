@@ -25,5 +25,15 @@ public class Users {
                         return new UserIdentity(id, username);
                     }),
             NetworkCodec.builder(UserIdentity.class)
-    );
+                    .encoder((identity, buf) -> {
+                        buf.writeUUID(identity.getId());
+                        buf.writeUtf(identity.getUsername());
+                    })
+                    .decoder(buf ->
+                            new UserIdentity(buf.readUUID(), buf.readUtf())
+                    ));
+
+    public static void register() {
+        REGISTRY.register(new Identifier(SYSTEM, "system"), SYSTEM);
+    }
 }

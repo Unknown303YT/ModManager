@@ -13,11 +13,11 @@ public class PacketEncoder extends MessageToByteEncoder<Packet<?>> {
         FriendlyByteBuf buf = new FriendlyByteBuf(byteBuf);
 
         buf.writeByte(0x01);
+        buf.writeUUID(packet.getRequestId());
 
         NetworkCodec<Packet<?>> builder = (NetworkCodec<Packet<?>>) packet.getCodec();
 
         buf.writeUtf(builder.getId().toString());
-
         buf.writeBytes(builder.build(packet));
     }
 }

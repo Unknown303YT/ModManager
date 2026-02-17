@@ -4,7 +4,6 @@ import com.riverstone.unknown303.modmanager.common.Constants;
 import com.riverstone.unknown303.modmanager.common.global.Logger;
 import com.riverstone.unknown303.modmanager.common.networking.netty.PacketDecoder;
 import com.riverstone.unknown303.modmanager.common.networking.netty.PacketEncoder;
-import com.riverstone.unknown303.modmanager.common.networking.server.Server;
 import com.riverstone.unknown303.modmanager.common.networking.packet.ServerboundPacket;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;

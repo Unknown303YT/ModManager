@@ -1,6 +1,7 @@
 package com.riverstone.unknown303.modmanager.common.global;
 
 import com.riverstone.unknown303.modmanager.common.user.UserIdentity;
+import com.riverstone.unknown303.modmanager.common.user.Users;
 
 import java.util.Map;
 import java.util.Objects;
@@ -13,7 +14,7 @@ public record Identifier(UserIdentity user, String path) {
                             "in it! Expected [username]:[path], got " + id,
                     IllegalArgumentException::new);
         UserIdentity user = null;
-        for (Map.Entry<Identifier, UserIdentity> entry : Users.USERS.getData()) {
+        for (Map.Entry<Identifier, UserIdentity> entry : Users.REGISTRY.getEntries()) {
             if (Objects.equals(entry.getValue().getUsername(), elements[0])) {
                 user = entry.getValue();
                 break;
