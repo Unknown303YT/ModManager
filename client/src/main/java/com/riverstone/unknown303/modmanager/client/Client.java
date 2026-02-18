@@ -17,6 +17,7 @@ import javax.net.ssl.TrustManagerFactory;
 import java.io.*;
 import java.security.*;
 import java.security.cert.CertificateException;
+import java.util.UUID;
 
 public class Client {
     public static final String SERVER_ADDRESS = "localhost";

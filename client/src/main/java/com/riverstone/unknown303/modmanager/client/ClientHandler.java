@@ -6,10 +6,12 @@ import com.riverstone.unknown303.modmanager.common.networking.packet.Clientbound
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
+import java.util.UUID;
+
 public class ClientHandler extends SimpleChannelInboundHandler<ClientboundPacket<?>> {
     @Override
     protected void channelRead0(ChannelHandlerContext context, ClientboundPacket<?> packet) throws Exception {
-        String status = packet.handle(new ClientPacketHandlerImpl(context.channel().remoteAddress().toString()));
+        packet.handle(new ClientPacketHandlerImpl(context.channel().remoteAddress().toString()));
     }
 
     @Override

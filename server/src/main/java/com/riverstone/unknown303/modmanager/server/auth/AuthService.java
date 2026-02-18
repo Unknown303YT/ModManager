@@ -8,6 +8,7 @@ import com.riverstone.unknown303.modmanager.common.networking.packet.status.Stat
 import com.riverstone.unknown303.modmanager.common.user.UserIdentity;
 import com.riverstone.unknown303.modmanager.server.Server;
 import com.riverstone.unknown303.modmanager.server.sessions.SessionManager;
+import com.riverstone.unknown303.modmanager.server.user.InMemoryUserStore;
 import com.riverstone.unknown303.modmanager.server.user.ServerUser;
 import com.riverstone.unknown303.modmanager.server.user.UserStore;
 
@@ -17,7 +18,7 @@ import java.util.UUID;
 public final class AuthService {
     public static final AuthService INSTANCE = new AuthService();
 
-    private final UserStore users = new ; // Implement UserStore
+    private final UserStore users = new InMemoryUserStore();
     private final SessionManager sessions = new SessionManager();
 
     private AuthService() {}
