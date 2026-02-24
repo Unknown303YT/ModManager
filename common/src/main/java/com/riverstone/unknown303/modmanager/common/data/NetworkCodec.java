@@ -37,7 +37,7 @@ public class NetworkCodec<DATA> {
         });
         builder1.decoder(buf -> {
             FriendlyByteBuf valueBuf = new FriendlyByteBuf(buf.readBytes(Unpooled.buffer()));
-            Identifier id = Identifier.parse(valueBuf.readUtf());
+            Identifier id = valueBuf.readIdentifier();
             FriendlyByteBuf valueData = new FriendlyByteBuf(valueBuf.readBytes(Unpooled.buffer()));
             return Map.entry(id, valueBuilder.build(valueData));
         });

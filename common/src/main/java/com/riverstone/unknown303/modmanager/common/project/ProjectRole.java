@@ -1,6 +1,4 @@
-package com.riverstone.unknown303.modmanager.project;
-
-import com.riverstone.unknown303.modmanager.data.SaveCodec;
+package com.riverstone.unknown303.modmanager.common.project;
 
 import java.util.EnumSet;
 

@@ -1,9 +1,12 @@
 package com.riverstone.unknown303.modmanager.client;
 
+import com.riverstone.unknown303.modmanager.client.auth.AuthClient;
+import com.riverstone.unknown303.modmanager.client.service.DeviceIdManager;
 import com.riverstone.unknown303.modmanager.common.Constants;
 import com.riverstone.unknown303.modmanager.common.global.Logger;
 import com.riverstone.unknown303.modmanager.common.networking.netty.PacketDecoder;
 import com.riverstone.unknown303.modmanager.common.networking.netty.PacketEncoder;
+import com.riverstone.unknown303.modmanager.common.networking.packet.AuthenticatedPacket;
 import com.riverstone.unknown303.modmanager.common.networking.packet.ServerboundPacket;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -14,10 +17,11 @@ import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 
 import javax.net.ssl.TrustManagerFactory;
-import java.io.*;
-import java.security.*;
+import java.io.IOException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
-import java.util.UUID;
 
 public class Client {
     public static final String SERVER_ADDRESS = "localhost";
@@ -77,9 +81,13 @@ public class Client {
     }
 
     public static void sendPacket(ServerboundPacket<?> packet) {
-        if (channel != null && channel.isActive())
+        if (channel != null && channel.isActive()) {
+            if (packet instanceof AuthenticatedPacket<?> authPacket) {
+                authPacket.setToken(AuthClient.INSTANCE.getSession().getToken());
+                authPacket.setDeviceId(DeviceIdManager.getDeviceId());
+            }
             channel.writeAndFlush(packet);
-        else
+        } else
             Logger.getLogger("Networking Thread").error("Client not connected");
     }
 }

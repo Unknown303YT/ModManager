@@ -573,7 +573,7 @@ public class FriendlyByteBuf extends ByteBuf {
      * @see #writeIdentifier
      */
     public Identifier readIdentifier() {
-        return Identifier.parse(this.readUtf(32767));
+        return Identifier.parse(this.readUtf());
     }
 
     /**

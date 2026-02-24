@@ -2,14 +2,24 @@ package com.riverstone.unknown303.modmanager.common.networking.packet.custom.ser
 
 import com.riverstone.unknown303.modmanager.common.data.NetworkCodec;
 import com.riverstone.unknown303.modmanager.common.global.Identifier;
+import com.riverstone.unknown303.modmanager.common.networking.FriendlyByteBuf;
 import com.riverstone.unknown303.modmanager.common.networking.context.base.ServerPacketContext;
-import com.riverstone.unknown303.modmanager.common.networking.packet.ServerboundPacket;
+import com.riverstone.unknown303.modmanager.common.networking.packet.AuthenticatedPacket;
+import com.riverstone.unknown303.modmanager.common.networking.packet.Packets;
 
-public final class ServerboundOpenProjectPacket extends ServerboundPacket<ServerboundOpenProjectPacket> {
+public final class ServerboundOpenProjectPacket extends AuthenticatedPacket<ServerboundOpenProjectPacket> {
     private final Identifier projectId;
 
     public ServerboundOpenProjectPacket(Identifier projectId) {
         this.projectId = projectId;
+    }
+
+    public void encode(FriendlyByteBuf buf) {
+        buf.writeIdentifier(projectId);
+    }
+
+    public static ServerboundOpenProjectPacket decode(FriendlyByteBuf buf) {
+        return new ServerboundOpenProjectPacket(buf.readIdentifier());
     }
 
     @Override
@@ -19,6 +29,6 @@ public final class ServerboundOpenProjectPacket extends ServerboundPacket<Server
 
     @Override
     public NetworkCodec<ServerboundOpenProjectPacket> getCodec() {
-        return null;
+        return Packets.SERVERBOUND_OPEN_PROJECT_PACKET;
     }
 }

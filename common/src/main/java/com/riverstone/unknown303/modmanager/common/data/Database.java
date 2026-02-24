@@ -3,7 +3,7 @@ package com.riverstone.unknown303.modmanager.common.data;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.riverstone.unknown303.modmanager.common.data.saving.SaveManager;
+import com.riverstone.unknown303.modmanager.common.data.saving.SaveManagerCommon;
 import com.riverstone.unknown303.modmanager.common.global.Identifier;
 
 import java.io.IOException;
@@ -89,7 +89,7 @@ public class Database<T> {
     }
 
     public void saveAllToFolder(Path folder, Function<T, String> fileNamer) throws IOException {
-        SaveManager.ensureFolder(folder);
+        SaveManagerCommon.ensureFolder(folder);
 
         for (T value : data) {
             Path file = folder.resolve(fileNamer.apply(value) + ".json");

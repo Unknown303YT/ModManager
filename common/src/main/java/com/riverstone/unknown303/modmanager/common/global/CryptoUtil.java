@@ -6,7 +6,6 @@ import de.mkammerer.argon2.Argon2Factory;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
 import java.util.Base64;
 
@@ -16,8 +15,8 @@ public class CryptoUtil {
             Argon2Factory.Argon2Types.ARGON2id
     );
 
-    private static final int ITERATIONS = 1;
-    private static final int MEMORY_KIB = 46 * 1024;
+    private static final int ITERATIONS = 2;
+    private static final int MEMORY_KIB = 96 * 1024;
     private static final int PARALLELISM = 1;
 
     public static String hashPassword(String password) {

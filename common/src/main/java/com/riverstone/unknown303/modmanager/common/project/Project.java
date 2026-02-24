@@ -10,6 +10,10 @@ public class Project {
         this.id = id;
     }
 
+    public Identifier getId() {
+        return id;
+    }
+
     public String getDisplayName() {
         return displayName;
     }

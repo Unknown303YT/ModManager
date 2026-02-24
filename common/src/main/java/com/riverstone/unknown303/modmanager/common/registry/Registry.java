@@ -11,10 +11,11 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class Registry<T> {
+public class Registry<T> implements Iterable<T> {
     private final Identifier id;
 
     private final SaveCodec<Map.Entry<Identifier, T>> saveCodec;
@@ -105,5 +106,24 @@ public class Registry<T> {
 
     public void load(Path folder) throws IOException {
         entries.loadAllFromFolder(folder);
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+            int upTo = 0;
+
+            @Override
+            public boolean hasNext() {
+                return upTo < entries.size();
+            }
+
+            @Override
+            public T next() {
+                T entry = entries.get(upTo).getValue();
+                upTo++;
+                return entry;
+            }
+        };
     }
 }

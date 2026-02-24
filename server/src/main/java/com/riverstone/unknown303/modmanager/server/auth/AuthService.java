@@ -82,4 +82,8 @@ public final class AuthService {
                 Map.of()
         ));
     }
+
+    public UUID authenticate(String token, String deviceId, String client) {
+        return sessions.authenticate(token, deviceId, client);
+    }
 }

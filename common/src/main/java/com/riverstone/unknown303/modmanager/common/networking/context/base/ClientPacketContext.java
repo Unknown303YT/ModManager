@@ -8,4 +8,6 @@ public interface ClientPacketContext extends PacketContext {
 
     void onStatus(ClientboundStatusPacket status);
     void onLoginSuccess(UserIdentity identity, String token);
+
+    ProjectClient projects();
 }

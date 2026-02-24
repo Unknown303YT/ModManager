@@ -4,6 +4,7 @@ import com.riverstone.unknown303.modmanager.common.data.NetworkCodec;
 import com.riverstone.unknown303.modmanager.common.global.Identifier;
 import com.riverstone.unknown303.modmanager.common.global.Logger;
 import com.riverstone.unknown303.modmanager.common.networking.FriendlyByteBuf;
+import com.riverstone.unknown303.modmanager.common.networking.packet.AuthenticatedPacket;
 import com.riverstone.unknown303.modmanager.common.networking.packet.Packet;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -27,7 +28,7 @@ public class PacketDecoder extends ByteToMessageDecoder {
 
         UUID requestId = buf.readUUID();
 
-        Identifier id = Identifier.parse(buf.readUtf());
+        Identifier id = buf.readIdentifier();
 
         NetworkCodec<Packet<?>> builder = (NetworkCodec<Packet<?>>) NetworkCodec.BUILDERS.get(id);
         if (builder == null) {
@@ -37,6 +38,14 @@ public class PacketDecoder extends ByteToMessageDecoder {
 
         Packet<?> packet = builder.build(new FriendlyByteBuf(buf.readBytes(Unpooled.buffer())));
         packet.setRequestId(requestId);
+
+        if (packet instanceof AuthenticatedPacket<?> authPacket) {
+            authPacket.setToken(buf.readUtf());
+            authPacket.setDeviceId(buf.readUtf());
+            list.add(authPacket);
+            return;
+        }
+
         list.add(packet);
     }
 }

@@ -1,12 +1,34 @@
 package com.riverstone.unknown303.modmanager.common.networking.packet.status;
 
 public enum StatusCode {
+    /** AUTHENTICATION **/
     ACCOUNT_CREATED,
     ACCOUNT_CREATION_FAILED,
     LOGIN_SUCCESS,
     LOGIN_FAILED,
+    LOGOUT_SUCCESS,
+    INVALID_CREDENTIALS,
+
+    /*** PROJECTS ***/
+    PROJECT_CREATED,
+    PROJECT_CREATION_FAILED,
+    PROJECT_OPENED,
+    PROJECT_OPEN_FAILURE,
+    PROJECT_DELETED,
+    PROJECT_DELETE_FAILED,
+    PROJECT_LISTED,
+    PROJECT_NOT_FOUND,
+    PROJECT_ALREADY_EXISTS,
+
+    /*** VALIDATION / INPUT ***/
     INVALID_INPUT,
+    MISSING_FIELD,
+    INVALID_ID,
+
+    /*** PERMISSIONS ***/
     PERMISSION_DENIED,
+
+    /*** SERVER / INTERNAL ***/
     SERVER_ERROR,
-    UNKNOWN
+    UNKNOWN_ERROR
 }

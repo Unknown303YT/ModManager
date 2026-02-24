@@ -1,9 +1,7 @@
 package com.riverstone.unknown303.modmanager.common.networking.context.base;
 
-import com.riverstone.unknown303.modmanager.common.networking.packet.status.StatusCode;
-import com.riverstone.unknown303.modmanager.common.networking.packet.status.StatusType;
+import com.riverstone.unknown303.modmanager.common.global.Identifier;
 
-import java.util.Map;
 import java.util.UUID;
 
 public interface ServerPacketContext extends PacketContext {
@@ -12,6 +10,8 @@ public interface ServerPacketContext extends PacketContext {
     void createAccount(String username, String password, String deviceId, UUID requestId);
     void login(String username, String password, String deviceId, boolean rememberMe, UUID requestId);
 
-    void sendStatus(StatusType type, StatusCode code, String message,
-                    UUID respondingTo, Map<String, String> metadata);
+    void createProject(String displayName, UUID requestId, String deviceId, String token);
+    void openProject(Identifier projectId, UUID requestId);
+    void deleteProject(Identifier projectId, UUID requestId);
+    void listProjects(UUID requestId);
 }

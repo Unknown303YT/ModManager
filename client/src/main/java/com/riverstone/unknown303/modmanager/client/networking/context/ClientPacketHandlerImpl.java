@@ -1,5 +1,6 @@
 package com.riverstone.unknown303.modmanager.client.networking.context;
 
+import com.riverstone.unknown303.modmanager.client.auth.AuthClient;
 import com.riverstone.unknown303.modmanager.common.networking.context.base.ClientPacketContext;
 import com.riverstone.unknown303.modmanager.common.networking.packet.status.ClientboundStatusPacket;
 import com.riverstone.unknown303.modmanager.common.user.UserIdentity;
@@ -24,5 +25,10 @@ public class ClientPacketHandlerImpl implements ClientPacketContext {
     @Override
     public void onLoginSuccess(UserIdentity identity, String token) {
         AuthClient.INSTANCE.onLoginSuccess(identity, token);
+    }
+
+    @Override
+    public ProjectClient projects() {
+        return null;
     }
 }

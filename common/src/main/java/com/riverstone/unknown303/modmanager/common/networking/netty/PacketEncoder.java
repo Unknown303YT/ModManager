@@ -2,6 +2,7 @@ package com.riverstone.unknown303.modmanager.common.networking.netty;
 
 import com.riverstone.unknown303.modmanager.common.data.NetworkCodec;
 import com.riverstone.unknown303.modmanager.common.networking.FriendlyByteBuf;
+import com.riverstone.unknown303.modmanager.common.networking.packet.AuthenticatedPacket;
 import com.riverstone.unknown303.modmanager.common.networking.packet.Packet;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -17,7 +18,11 @@ public class PacketEncoder extends MessageToByteEncoder<Packet<?>> {
 
         NetworkCodec<Packet<?>> builder = (NetworkCodec<Packet<?>>) packet.getCodec();
 
-        buf.writeUtf(builder.getId().toString());
+        buf.writeIdentifier(builder.getId());
         buf.writeBytes(builder.build(packet));
+        if (packet instanceof AuthenticatedPacket<?> authPacket) {
+            buf.writeUtf(authPacket.getToken());
+            buf.writeUtf(authPacket.getDeviceId());
+        }
     }
 }

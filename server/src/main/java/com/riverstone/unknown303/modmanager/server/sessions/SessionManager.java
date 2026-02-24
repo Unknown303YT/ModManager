@@ -2,7 +2,11 @@ package com.riverstone.unknown303.modmanager.server.sessions;
 
 import com.riverstone.unknown303.modmanager.common.global.CryptoUtil;
 import com.riverstone.unknown303.modmanager.common.global.Logger;
+import com.riverstone.unknown303.modmanager.common.networking.packet.status.ClientboundStatusPacket;
+import com.riverstone.unknown303.modmanager.common.networking.packet.status.StatusCode;
+import com.riverstone.unknown303.modmanager.common.networking.packet.status.StatusType;
 import com.riverstone.unknown303.modmanager.common.user.Users;
+import com.riverstone.unknown303.modmanager.server.Server;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -31,7 +35,7 @@ public class SessionManager {
         return token;
     }
 
-    public UUID authenticate(String token, String deviceId) {
+    public UUID authenticate(String token, String deviceId, String client) {
         if (token == null) {
             Logger.getLogger().error("Token cannot be null!", NullPointerException::new);
             return null;
@@ -44,15 +48,25 @@ public class SessionManager {
         if (!session.getDeviceId().equals(deviceId))
             return null;
 
-        if (session.expiresAt().isBefore(Instant.now())) {
-            sessions.remove(tokenHash);
+        if (checkForInvalidation(token, client))
             return null;
-        }
 
         return session.getUserId();
     }
 
-    public void invalidate(String token) {
+    public boolean checkForInvalidation(String token, String client) {
+        String tokenHash = CryptoUtil.hashToken(token);
+        Session session = sessions.get(tokenHash);
+
+        if (session.expiresAt().isBefore(Instant.now())) {
+            invalidate(token, client);
+            return true;
+        }
+
+        return false;
+    }
+
+    public void invalidate(String token, String client) {
         if (token == null) {
             Logger.getLogger().error("Token cannot be null!", NullPointerException::new);
             return;
@@ -60,5 +74,12 @@ public class SessionManager {
 
         String tokenHash = CryptoUtil.hashToken(token);
         sessions.remove(tokenHash);
+        Server.sendPacket(client, new ClientboundStatusPacket(
+                StatusType.ERROR,
+                StatusCode.PERMISSION_DENIED,
+                "Session expired!",
+                UUID.randomUUID(),
+                Map.of("sessionToken", token)
+        ));
     }
 }
