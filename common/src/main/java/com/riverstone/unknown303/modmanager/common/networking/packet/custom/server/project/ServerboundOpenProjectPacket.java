@@ -24,7 +24,7 @@ public final class ServerboundOpenProjectPacket extends AuthenticatedPacket<Serv
 
     @Override
     public void handle(ServerPacketContext context) {
-        context.openProject(projectId, getRequestId());
+        context.openProject(projectId, getRequestId(), deviceId, token);
     }
 
     @Override

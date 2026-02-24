@@ -3,7 +3,10 @@ package com.riverstone.unknown303.modmanager.client.networking.context;
 import com.riverstone.unknown303.modmanager.client.auth.AuthClient;
 import com.riverstone.unknown303.modmanager.common.networking.context.base.ClientPacketContext;
 import com.riverstone.unknown303.modmanager.common.networking.packet.status.ClientboundStatusPacket;
+import com.riverstone.unknown303.modmanager.common.project.Project;
 import com.riverstone.unknown303.modmanager.common.user.UserIdentity;
+
+import java.util.List;
 
 public class ClientPacketHandlerImpl implements ClientPacketContext {
     private final String serverAddress;
@@ -28,7 +31,12 @@ public class ClientPacketHandlerImpl implements ClientPacketContext {
     }
 
     @Override
-    public ProjectClient projects() {
-        return null;
+    public void onProjectList(List<Project> projects) {
+
+    }
+
+    @Override
+    public void onProjectOpened(Project project) {
+
     }
 }

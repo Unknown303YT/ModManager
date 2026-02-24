@@ -38,7 +38,7 @@ public final class ClientboundProjectListPacket extends ClientboundPacket<Client
 
     @Override
     public void handle(ClientPacketContext context) {
-        context.projects().onProjectList(projects);
+        context.onProjectList(projects);
     }
 
     @Override

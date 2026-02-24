@@ -11,7 +11,7 @@ public interface ServerPacketContext extends PacketContext {
     void login(String username, String password, String deviceId, boolean rememberMe, UUID requestId);
 
     void createProject(String displayName, UUID requestId, String deviceId, String token);
-    void openProject(Identifier projectId, UUID requestId);
+    void openProject(Identifier projectId, UUID requestId, String deviceId, String token);
     void deleteProject(Identifier projectId, UUID requestId);
     void listProjects(UUID requestId);
 }

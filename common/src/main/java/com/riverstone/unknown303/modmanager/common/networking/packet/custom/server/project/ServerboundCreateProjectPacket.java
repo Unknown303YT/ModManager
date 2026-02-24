@@ -23,7 +23,7 @@ public final class ServerboundCreateProjectPacket extends AuthenticatedPacket<Se
 
     @Override
     public void handle(ServerPacketContext context) {
-        context.createProject(displayName, getRequestId());
+        context.createProject(displayName, getRequestId(), deviceId, token);
     }
 
     @Override

@@ -35,9 +35,9 @@ public class ServerPacketContextImpl implements ServerPacketContext {
     }
 
     @Override
-    public void openProject(Identifier projectId, UUID requestId) {
+    public void openProject(Identifier projectId, UUID requestId, String deviceId, String token) {
         ProjectService.INSTANCE.openProject(this, clientAddress(),
-                projectId, requestId);
+                projectId, requestId, deviceId, token);
     }
 
     @Override

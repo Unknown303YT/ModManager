@@ -31,7 +31,7 @@ public class ClientboundProjectOpenedPacket extends ClientboundPacket<Clientboun
 
     @Override
     public void handle(ClientPacketContext context) {
-        context.projects().onProjectOpened(project);
+        context.onProjectOpened(project);
     }
 
     @Override
